@@ -13,6 +13,8 @@ $ echo "This is sample text." >> sample.txt
 $ cring -i sample.txt -r sample
 ```
 
+Refer to `cring --help` for details on how to use it.
+
 ## Install
 
 ```bash
