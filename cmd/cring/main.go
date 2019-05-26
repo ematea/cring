@@ -15,25 +15,24 @@ import (
 )
 
 var (
-	version  = "undefined"
-	revision = "undefined"
+	version  = ""
+	revision = ""
 )
 
 var (
-	redWords     = kingpin.Flag("red", "Highlight words / red").Short('r').Strings()
-	greenWords   = kingpin.Flag("green", "Highlight words / green ").Short('g').Strings()
-	yellowWords  = kingpin.Flag("yellow", "Highlight words / yellow").Short('y').Strings()
-	blueWords    = kingpin.Flag("blue", "Highlight words / blue").Short('b').Strings()
-	magentaWords = kingpin.Flag("magenta", "Highlight words / magenta").Short('m').Strings()
-	cyanWords    = kingpin.Flag("cyan", "Highlight words / cyan").Short('c').Strings()
-	whiteWords   = kingpin.Flag("white", "Highlight words / white").Short('w').Strings()
-	words        = kingpin.Arg("word", "Highlight words / default color (= red)").Strings()
+	redWords     = kingpin.Flag("red", "highlight word (red)").Short('r').Strings()
+	greenWords   = kingpin.Flag("green", "highlight word (green)").Short('g').Strings()
+	yellowWords  = kingpin.Flag("yellow", "highlight word (yellow)").Short('y').Strings()
+	blueWords    = kingpin.Flag("blue", "highlight word (blue)").Short('b').Strings()
+	magentaWords = kingpin.Flag("magenta", "highlight word (magenta)").Short('m').Strings()
+	cyanWords    = kingpin.Flag("cyan", "highlight word (cyan)").Short('c').Strings()
+	whiteWords   = kingpin.Flag("white", "highlight word (white)").Short('w').Strings()
+	words        = kingpin.Arg("word", "highlight word (default color (= red))").Strings()
 
-	input      = kingpin.Flag("input", "Input file. If not specified, stdin will be loaded").Short('i').ExistingFile()
-	versionOpt = kingpin.Flag("version", "Version information").Short('v').Action(versionOption).Bool()
+	input      = kingpin.Flag("input", "input file").Short('i').ExistingFile()
+	versionOpt = kingpin.Flag("version", "version information").Short('v').Action(versionAction).Bool()
 )
 
-// TODO モードの拡充 (redraw / no-redraw / line buffered)
 func main() {
 	kingpin.Parse()
 
@@ -73,7 +72,6 @@ func getReader(input *string) (io.Reader, func(), error) {
 		if err != nil {
 			return nil, func() {}, err
 		}
-		// defer file.Close()
 		reader = bufio.NewReader(file)
 	}
 	return reader, func() { file.Close() }, nil
@@ -93,8 +91,13 @@ func getWriter() (io.Writer, func()) {
 	}
 }
 
-func versionOption(ctx *kingpin.ParseContext) error {
-	fmt.Printf("   cring\n Version: %s\nRevision: %s\n", version, revision)
+func versionAction(ctx *kingpin.ParseContext) error {
+	fmt.Printf("cring ")
+	if version == "" || revision == "" {
+		fmt.Printf("(undefined version)\n")
+	} else {
+		fmt.Printf("%s / %s\n", version, revision)
+	}
 	os.Exit(0)
 	return nil
 }
