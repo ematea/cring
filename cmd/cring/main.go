@@ -27,7 +27,7 @@ var (
 	magentaWords = kingpin.Flag("magenta", "highlight word (magenta)").Short('m').Strings()
 	cyanWords    = kingpin.Flag("cyan", "highlight word (cyan)").Short('c').Strings()
 	whiteWords   = kingpin.Flag("white", "highlight word (white)").Short('w').Strings()
-	words        = kingpin.Arg("word", "highlight word (default color (= red))").Strings()
+	words        = kingpin.Arg("word", "highlight words (default color (= red))").Strings()
 
 	input      = kingpin.Flag("input", "input file").Short('i').ExistingFile()
 	versionOpt = kingpin.Flag("version", "version information").Short('v').Action(versionAction).Bool()
