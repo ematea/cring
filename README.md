@@ -21,3 +21,6 @@ Refer to `cring --help` for details on how to use it.
 $ go get github.com/ematea/cring/cmd/cring
 ```
 
+## License
+
+MIT
